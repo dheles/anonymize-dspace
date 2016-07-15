@@ -1,7 +1,8 @@
-#anonymize_db.sql
-update eperson set email = 'test+' || eperson_id || '@jhu.edu';
-update eperson set netid = eperson_id;
-update eperson set jhu_hopkinsid = eperson_id;
-update eperson set jhu_jhedid = eperson_id;
-update eperson set phone = '410-555-1212';
-truncate registrationdata
+UPDATE eperson SET email = 'test+' || eperson_id || '@jhu.edu';
+UPDATE eperson SET netid = eperson_id;
+UPDATE eperson SET jhu_hopkinsid = eperson_id;
+UPDATE eperson SET jhu_jhedid = eperson_id;
+UPDATE eperson SET phone = '410-555-1212';
+UPDATE eperson SET password = NULL;
+TRUNCATE registrationdata;
+VACUUM registrationdata;
