@@ -8,6 +8,7 @@ function usage
 }
 
 # set defaults:
+ADMIN="vagrant"
 DB_NAME="dspace_anon"
 DB_USER="dspace"
 BACKUP_FILENAME="production_dump.sql"
@@ -37,8 +38,14 @@ while [ "$1" != "" ]; do
   shift
 done
 
+# set remaining vars
+ADMIN_HOME="/home/$ADMIN"
+BACKUP_PATH="$ADMIN_HOME/db_backup"
+BACKUP_FILE="$BACKUP_PATH/$BACKUP_FILENAME"
+ANONYMIZED_FILE="$BACKUP_PATH/$ANONYMIZED_FILENAME"
+
 sudo su - postgres bash -c "dropdb $DB_NAME"
 sudo su - postgres bash -c "createdb -O $DB_USER --encoding=UNICODE $DB_NAME"
-sudo su postgres bash -c "pg_restore -U $DB_USER -d $DB_NAME -O < ./$BACKUP_FILENAME"
+pg_restore -U $DB_USER -d $DB_NAME -O < $BACKUP_FILE
 sudo su postgres bash -c "psql -U $DB_USER $DB_NAME < ./anonymize_db.sql"
-pg_dump --format=custom --oids --no-owner --no-acl --ignore-version -U $DB_USER $DB_NAME > $ANONYMIZED_FILENAME
+pg_dump --format=custom --oids --no-owner --no-acl --ignore-version -U $DB_USER $DB_NAME > $ANONYMIZED_FILE
