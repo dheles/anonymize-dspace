@@ -39,6 +39,6 @@ done
 
 sudo su - postgres bash -c "dropdb $DB_NAME"
 sudo su - postgres bash -c "createdb -O $DB_USER --encoding=UNICODE $DB_NAME"
-sudo su postgres bash -c "pg_restore -U $DB_USER -d $DB_NAME -c -O < ./$BACKUP_FILENAME"
+sudo su postgres bash -c "pg_restore -U $DB_USER -d $DB_NAME -O < ./$BACKUP_FILENAME"
 sudo su postgres bash -c "psql -U $DB_USER $DB_NAME < ./anonymize_db.sql"
 pg_dump --format=custom --oids --no-owner --no-acl --ignore-version -U $DB_USER $DB_NAME > $ANONYMIZED_FILENAME
